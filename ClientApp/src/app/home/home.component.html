@@ -1,0 +1,21 @@
+<h1>Add User</h1>
+
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <label for="FirstName">
+      First Name
+    </label>
+    <input id="FirstName" type="text" formControlName="FirstName">
+  </div>
+
+  <div>
+    <label for="LastName">
+      Last Name
+    </label>
+    <input id="LastName" type="text" formControlName="LastName">
+  </div>
+
+  <button class="button" type="submit">Submit</button>
+
+</form>

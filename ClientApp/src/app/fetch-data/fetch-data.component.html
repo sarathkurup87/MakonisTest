@@ -1,0 +1,19 @@
+<h1 id="tableLabel">Users List #ApiCall #Json</h1>
+
+<p *ngIf="!users"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="users">
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let usr of users">
+      <td>{{ usr.firstName }}</td>
+      <td>{{ usr.lastName }}</td>
+    </tr>
+  </tbody>
+</table>
+<pre>{{ users | json }}</pre>
