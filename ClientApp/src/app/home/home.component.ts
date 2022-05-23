@@ -26,15 +26,29 @@ export class HomeComponent {
     if (this.userForm.invalid) {
       return;
     }
-    this.userForm.reset();
+
     this._http
       .post(this._baseUrl + 'test/saveData', this.userForm.value)
       .subscribe({
-        next: (response) => { debugger; console.log(response) },
-        error: (error) => { debugger; console.log(error) },
+        next: (response) => {
+          console.log(response);
+          console.warn('submitted', this.userForm.value);
+          setTimeout(() => { this.router.navigate(['/fetch-data']); }, 1000);
+        },
+        error: (err) => {
+          const validationErrors = err.error.errors;
+          Object.keys(validationErrors).forEach(prop => {
+            const formControl = this.userForm.get(prop);
+            if (formControl) {
+              formControl.setErrors({
+                serverError: validationErrors[prop]
+              });
+            }
+          });
+          return;
+        },
       });
-    console.warn('Your order has been submitted', this.userForm.value);
-    setTimeout(() => { this.router.navigate(['/fetch-data']); }, 1000);
+    //this.userForm.reset();
   }
 
   get formControls() { return this.userForm.controls; }

@@ -1,30 +1,36 @@
 
 <div class="container">
   <article class="sample-column">
-      <form class="input-group-form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
-          <h2>Add User</h2>
-          <div class="container">
+    <form class="input-group-form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <h2>Add User</h2>
+      <div class="container">
 
-            <div>
-              <p [ngClass]="{ 'has-error': isSubmitted && formControls.FirstName.errors }">
-                <input id="FirstName" name="FirstName" type="text" placeholder="First Name" class="form-control" formControlName="FirstName">
-              </p>
-              <div *ngIf="isSubmitted &&  formControls.FirstName.errors" class="help-block">
-                <div style="color:red;">First Name is required</div>
-              </div>
-            </div>
-
-            <div>
-              <p [ngClass]="{ 'has-error': isSubmitted && formControls.LastName.errors }">
-                <input id="LastName" name="LastName" placeholder="Last Name" type="text" class="form-control" formControlName="LastName">
-              </p>
-              <div *ngIf="isSubmitted && formControls.LastName.errors" class="help-block">
-                <div style="color:red;">Last Name is required</div>
-              </div>
-            </div>
-
-            <button class="button" type="submit">Submit</button>
+        <div>
+          <p [ngClass]="{ 'has-error': isSubmitted && formControls?.FirstName?.errors }">
+            <input id="FirstName" name="FirstName" type="text" placeholder="First Name" class="form-control" formControlName="FirstName">
+          </p>
+          <div *ngIf="isSubmitted && formControls?.FirstName?.errors && !formControls?.LastName?.errors?.serverError" class="help-block">
+            <div style="color:red;">Client Side validation: First Name is required</div>
           </div>
-      </form>
+          <div *ngIf="formControls?.FirstName?.errors?.serverError" style="color:red;">
+            {{ formControls?.FirstName?.errors?.serverError }}
+          </div>
+        </div>
+
+        <div>
+          <p [ngClass]="{ 'has-error': isSubmitted && formControls?.LastName?.errors }">
+            <input id="LastName" name="LastName" placeholder="Last Name" type="text" class="form-control" formControlName="LastName">
+          </p>
+          <div *ngIf="isSubmitted && formControls?.LastName?.errors && !formControls?.LastName?.errors?.serverError" class="help-block">
+            <div style="color:red;">Client Side validation: Last Name is required</div>
+          </div>
+          <div *ngIf="formControls?.LastName?.errors?.serverError" style="color:red;">
+            {{ formControls?.LastName?.errors?.serverError }}
+          </div>
+        </div>
+
+        <button class="button" type="submit">Submit</button>
+      </div>
+    </form>
   </article>
 </div>

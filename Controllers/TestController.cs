@@ -1,8 +1,6 @@
 ﻿using Makonis.Interface;
 using Makonis.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace Makonis.Controllers
 {
@@ -38,7 +36,7 @@ namespace Makonis.Controllers
                 }
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest("Invalid model object");
+                    return BadRequest(ModelState);
                 }
 
                 await saveInterface.WriteJson(user);

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Makonis.Models
@@ -5,13 +6,15 @@ namespace Makonis.Models
     public class User
     {
         [Required]
-        [StringLength(maximumLength: 10, MinimumLength = 3,
-        ErrorMessage = "The property {0} should have {1} maximum characters and {2} minimum characters")]
+        [DisplayName("First Name")]
+        [StringLength(maximumLength: 4, MinimumLength = 2,
+        ErrorMessage = "Server Side Validation: The property {0} should have {1} maximum characters and {2} minimum characters")]
         public string? FirstName { get; set; }
 
         [Required]
-        [StringLength(maximumLength: 10, MinimumLength = 3,
-        ErrorMessage = "The property {0} should have {1} maximum characters and {2} minimum characters")]
+        [DisplayName("Last Name")]
+        [StringLength(maximumLength: 4, MinimumLength = 2,
+        ErrorMessage = "Server Side Validation: The property {0} should have {1} maximum characters and {2} minimum characters")]
         public string? LastName { get; set; }
 
     }

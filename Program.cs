@@ -1,16 +1,12 @@
 using Makonis.Interface;
 using Makonis.Repository;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IGet,Repo>();
+builder.Services.AddScoped<IGet, Repo>();
 builder.Services.AddScoped<ISave, Repo>();
 
 var app = builder.Build();
