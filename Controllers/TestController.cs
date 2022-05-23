@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Makonis.Interface;
+using Makonis.Models;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,21 +10,21 @@ namespace Makonis.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        private IWebHostEnvironment webHostEnvironment;
         private readonly ILogger<TestController> _logger;
-        private readonly string _filePath = string.Empty;
-        public TestController(ILogger<TestController> logger, IWebHostEnvironment _environment)
+        private IGet getInterface;
+        private ISave saveInterface;
+        public TestController(ILogger<TestController> logger, IGet _getInterface, ISave _saveInterface)
         {
-            webHostEnvironment = _environment;
             _logger = logger;
-            _filePath = Path.Combine(this.webHostEnvironment.WebRootPath, "_result.json");
+            getInterface = _getInterface;
+            saveInterface = _saveInterface;
         }
 
         [Route("getData")]
         [HttpGet]
         public Task<List<User>> GetData()
         {
-            return ReadJson();
+            return getInterface.ReadJson();
         }
 
         [HttpPost("saveData")]
@@ -39,7 +41,7 @@ namespace Makonis.Controllers
                     return BadRequest("Invalid model object");
                 }
 
-                await WriteJson(user);
+                await saveInterface.WriteJson(user);
                 return Ok(user);
             }
             catch (Exception ex)
@@ -48,43 +50,6 @@ namespace Makonis.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-
-        #region Read/Write Json
-        public async Task<List<User>> ReadJson()
-        {
-            var _user = new List<User>();
-            try
-            {
-                FileInfo file = new FileInfo(_filePath);
-                if (file.Exists)
-                {
-                    using (StreamReader r = new StreamReader(_filePath))
-                    {
-                        string json = await r.ReadToEndAsync();
-                        _user = JsonConvert.DeserializeObject<List<User>>(json);
-                    }
-                }
-            }
-            catch { }
-            return _user;
-        }
-        public async Task WriteJson(User _user)
-        {
-            try
-            {
-                var users = new List<User>();
-                users = ReadJson().Result; users.Add(_user);
-                string jsondata = JsonConvert.SerializeObject(users);
-                byte[] byteArray = Encoding.ASCII.GetBytes(jsondata);
-                string strPath = Path.Combine(this.webHostEnvironment.WebRootPath, "_result.json");
-                using (FileStream fs = new FileStream(strPath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
-                {
-                    await fs.WriteAsync(byteArray, 0, byteArray.Length);
-                }
-            }
-            catch { }
-        }
-        #endregion
 
     }
 }

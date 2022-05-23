@@ -1,21 +1,30 @@
-<h1>Add User</h1>
 
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+<div class="container">
+  <article class="sample-column">
+      <form class="input-group-form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+          <h2>Add User</h2>
+          <div class="container">
 
-  <div>
-    <label for="FirstName">
-      First Name
-    </label>
-    <input id="FirstName" type="text" formControlName="FirstName">
-  </div>
+            <div>
+              <p [ngClass]="{ 'has-error': isSubmitted && formControls.FirstName.errors }">
+                <input id="FirstName" name="FirstName" type="text" placeholder="First Name" class="form-control" formControlName="FirstName">
+              </p>
+              <div *ngIf="isSubmitted &&  formControls.FirstName.errors" class="help-block">
+                <div style="color:red;">First Name is required</div>
+              </div>
+            </div>
 
-  <div>
-    <label for="LastName">
-      Last Name
-    </label>
-    <input id="LastName" type="text" formControlName="LastName">
-  </div>
+            <div>
+              <p [ngClass]="{ 'has-error': isSubmitted && formControls.LastName.errors }">
+                <input id="LastName" name="LastName" placeholder="Last Name" type="text" class="form-control" formControlName="LastName">
+              </p>
+              <div *ngIf="isSubmitted && formControls.LastName.errors" class="help-block">
+                <div style="color:red;">Last Name is required</div>
+              </div>
+            </div>
 
-  <button class="button" type="submit">Submit</button>
-
-</form>
+            <button class="button" type="submit">Submit</button>
+          </div>
+      </form>
+  </article>
+</div>
